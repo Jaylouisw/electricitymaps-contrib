@@ -1,0 +1,32 @@
+_comment: GSP group _L (National Grid Electricity Distribution (South West)). Zone key/shape provisional - naming is an open question on electricitymaps-contrib#8891.
+bounding_box:
+  - - -6.453154
+    - 49.863298
+  - - -2.271845
+    - 51.591907
+center_point:
+  - -3.842476
+  - 50.770025
+centroid:
+  - -3.842476
+  - 50.770025
+contributors:
+  - Jaylouisw
+country: GB
+country_name: Great Britain
+currency: GBP
+disclaimer: Consumption and embedded generation are measured by the distribution network operator; the transmission-supplied share of the mix is estimated.
+has_day_ahead_price_license: False
+hide_day_ahead_price: False
+region: Europe
+sources:
+  NGED Data Portal:
+    link: https://connecteddata.nationalgrid.co.uk/dataset/live-data
+  NESO Carbon Intensity API:
+    link: https://api.carbonintensity.org.uk/regional
+  NESO GIS Boundaries for GB DNO Licence Areas:
+    link: https://www.neso.energy/data-portal/gis-boundaries-gb-dno-license-areas
+  Elexon BMRS (FUELINST):
+    link: https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELINST
+timezone: Europe/London
+zone_name: South West England

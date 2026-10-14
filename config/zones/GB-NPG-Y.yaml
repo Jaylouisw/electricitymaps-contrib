@@ -1,0 +1,32 @@
+_comment: GSP group _M (Northern Powergrid (Yorkshire)). Zone key/shape provisional - naming is an open question on electricitymaps-contrib#8891.
+bounding_box:
+  - - -2.289506
+    - 53.243685
+  - - 0.251169
+    - 54.252163
+center_point:
+  - -0.990638
+  - 53.701752
+centroid:
+  - -0.990638
+  - 53.701752
+contributors:
+  - Jaylouisw
+country: GB
+country_name: Great Britain
+currency: GBP
+disclaimer: Consumption and embedded generation are measured by the distribution network operator; the transmission-supplied share of the mix is estimated.
+has_day_ahead_price_license: False
+hide_day_ahead_price: False
+region: Europe
+sources:
+  Northern Powergrid Open Data Portal:
+    link: https://northernpowergrid.opendatasoft.com/explore/dataset/live-primary-operational-metering-14-day/
+  NESO Carbon Intensity API:
+    link: https://api.carbonintensity.org.uk/regional
+  NESO GIS Boundaries for GB DNO Licence Areas:
+    link: https://www.neso.energy/data-portal/gis-boundaries-gb-dno-license-areas
+  Elexon BMRS (FUELINST):
+    link: https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELINST
+timezone: Europe/London
+zone_name: Yorkshire

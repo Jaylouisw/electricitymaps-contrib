@@ -1,0 +1,32 @@
+_comment: GSP group _D (SP Energy Networks (SP Manweb)). Zone key/shape provisional - naming is an open question on electricitymaps-contrib#8891.
+bounding_box:
+  - - -4.811856
+    - 52.262606
+  - - -2.186517
+    - 53.702436
+center_point:
+  - -3.455721
+  - 52.983148
+centroid:
+  - -3.455721
+  - 52.983148
+contributors:
+  - Jaylouisw
+country: GB
+country_name: Great Britain
+currency: GBP
+disclaimer: Consumption and embedded generation are measured by the distribution network operator; the transmission-supplied share of the mix is estimated.
+has_day_ahead_price_license: False
+hide_day_ahead_price: False
+region: Europe
+sources:
+  SP Energy Networks Open Data Portal:
+    link: https://spenergynetworks.opendatasoft.com/
+  NESO Carbon Intensity API:
+    link: https://api.carbonintensity.org.uk/regional
+  NESO GIS Boundaries for GB DNO Licence Areas:
+    link: https://www.neso.energy/data-portal/gis-boundaries-gb-dno-license-areas
+  Elexon BMRS (FUELINST):
+    link: https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELINST
+timezone: Europe/London
+zone_name: North Wales, Merseyside and Cheshire

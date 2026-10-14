@@ -1,0 +1,32 @@
+_comment: GSP group _G (Electricity North West). Zone key/shape provisional - naming is an open question on electricitymaps-contrib#8891.
+bounding_box:
+  - - -3.646936
+    - 53.168422
+  - - -1.768782
+    - 55.188731
+center_point:
+  - -2.69325
+  - 54.202637
+centroid:
+  - -2.69325
+  - 54.202637
+contributors:
+  - Jaylouisw
+country: GB
+country_name: Great Britain
+currency: GBP
+disclaimer: Consumption and embedded generation are measured by the distribution network operator; the transmission-supplied share of the mix is estimated.
+has_day_ahead_price_license: False
+hide_day_ahead_price: False
+region: Europe
+sources:
+  SP Electricity North West Data Portal:
+    link: https://electricitynorthwest.opendatasoft.com/explore/dataset/sp-enw-live-system-demand/
+  NESO Carbon Intensity API:
+    link: https://api.carbonintensity.org.uk/regional
+  NESO GIS Boundaries for GB DNO Licence Areas:
+    link: https://www.neso.energy/data-portal/gis-boundaries-gb-dno-license-areas
+  Elexon BMRS (FUELINST):
+    link: https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELINST
+timezone: Europe/London
+zone_name: North West England
