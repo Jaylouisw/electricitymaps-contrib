@@ -2,12 +2,24 @@
 # name: test_consumption
   list([
     dict({
-      'consumption': 1276.62472,
-      'datetime': datetime.datetime(2026, 10, 15, 3, 30, tzinfo=datetime.timezone.utc),
+      'consumption': 1336.346829,
+      'datetime': datetime.datetime(2026, 10, 15, 5, 30, tzinfo=datetime.timezone.utc),
       'end_datetime': None,
       'source': 'northernpowergrid.opendatasoft.com',
       'sourceType': <EventSourceType.measured: 'measured'>,
       'zoneKey': 'GB-NPG-NE',
+    }),
+  ])
+# ---
+# name: test_exchange
+  list([
+    dict({
+      'datetime': datetime.datetime(2026, 10, 15, 5, 30, tzinfo=datetime.timezone.utc),
+      'end_datetime': None,
+      'netFlow': 548.991285,
+      'sortedZoneKeys': 'GB->GB-NPG-NE',
+      'source': 'northernpowergrid.opendatasoft.com',
+      'sourceType': <EventSourceType.measured: 'measured'>,
     }),
   ])
 # ---
@@ -16,21 +28,18 @@
     dict({
       'correctedModes': list([
       ]),
-      'datetime': datetime.datetime(2026, 10, 15, 3, 30, tzinfo=datetime.timezone.utc),
+      'datetime': datetime.datetime(2026, 10, 15, 5, 30, tzinfo=datetime.timezone.utc),
       'end_datetime': None,
       'production': dict({
-        'biomass': 107.420659,
-        'gas': 137.981371,
-        'hydro': 19.769458,
-        'nuclear': 146.415441,
-        'solar': 1.162866,
-        'unknown': 71.185439,
-        'wind': 757.262182,
+        'biomass': 413.970629,
+        'solar': 1.187707,
+        'unknown': 63.629089,
+        'wind': 289.988084,
       }),
       'source': 'northernpowergrid.opendatasoft.com',
-      'sourceType': <EventSourceType.estimated: 'estimated'>,
+      'sourceType': <EventSourceType.measured: 'measured'>,
       'storage': dict({
-        'battery': 80.517254,
+        'battery': 1.589526,
       }),
       'zoneKey': 'GB-NPG-NE',
     }),

@@ -11,6 +11,18 @@
     }),
   ])
 # ---
+# name: test_exchange_west_midlands
+  list([
+    dict({
+      'datetime': datetime.datetime(2026, 10, 15, 4, 35, tzinfo=datetime.timezone.utc),
+      'end_datetime': None,
+      'netFlow': 1992.08,
+      'sortedZoneKeys': 'GB->GB-NGED-WM',
+      'source': 'connecteddata.nationalgrid.co.uk',
+      'sourceType': <EventSourceType.measured: 'measured'>,
+    }),
+  ])
+# ---
 # name: test_production_east_midlands
   list([
     dict({
@@ -19,16 +31,12 @@
       'datetime': datetime.datetime(2026, 10, 15, 4, 35, tzinfo=datetime.timezone.utc),
       'end_datetime': None,
       'production': dict({
-        'biomass': 200.398761,
-        'gas': 351.772932,
-        'hydro': 50.400718,
-        'nuclear': 373.274945,
         'solar': 31.5,
-        'unknown': 173.665683,
-        'wind': 1473.656962,
+        'unknown': 155.69,
+        'wind': 288.38,
       }),
-      'source': 'connecteddata.nationalgrid.co.uk, elexon.co.uk',
-      'sourceType': <EventSourceType.estimated: 'estimated'>,
+      'source': 'connecteddata.nationalgrid.co.uk',
+      'sourceType': <EventSourceType.measured: 'measured'>,
       'storage': dict({
       }),
       'zoneKey': 'GB-NGED-EM',
@@ -43,16 +51,12 @@
       'datetime': datetime.datetime(2026, 10, 15, 4, 35, tzinfo=datetime.timezone.utc),
       'end_datetime': None,
       'production': dict({
-        'biomass': 183.199653,
-        'gas': 321.582223,
-        'hydro': 46.075106,
-        'nuclear': 341.238838,
         'solar': 17.47,
-        'unknown': 109.50293,
-        'wind': 1112.94125,
+        'unknown': 93.07,
+        'wind': 29.39,
       }),
-      'source': 'connecteddata.nationalgrid.co.uk, elexon.co.uk',
-      'sourceType': <EventSourceType.estimated: 'estimated'>,
+      'source': 'connecteddata.nationalgrid.co.uk',
+      'sourceType': <EventSourceType.measured: 'measured'>,
       'storage': dict({
       }),
       'zoneKey': 'GB-NGED-WM',

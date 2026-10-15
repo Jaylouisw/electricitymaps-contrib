@@ -1,1 +1,29 @@
-{"total_count": 1434, "results": [{"region": "North East", "timestamp": "2026-10-15T03:30:00+00:00", "tx": 445967.24266, "totaldemand": 1276624.7201, "visiblegen": -768175.04272, "biomass": -28815.133866, "wind": -292342.55372, "pv": -1162.866036, "other": -64134.556533, "bessexport": -1090.64587, "bessimport": 81607.89952, "hybridexport": 0.0, "hybridimport": 0.0, "gspimport": -854742.30516, "biomass_pc": 0.022571343, "wind_pc": 0.228996469, "pv_pc": 0.000910891, "other_pc": 0.050237596, "bess_pc": 0.00085432, "hybrid_pc": 0.0, "gsp_pc": 0.3493330778, "neco2intensity": 0.0, "resultant_gco2_kwh": 17.77984}]}
+{
+ "results": [
+  {
+   "region": "North East",
+   "timestamp": "2026-10-15T05:30:00+00:00",
+   "tx": 548991.2849,
+   "totaldemand": 1336346.8293,
+   "visiblegen": -763053.84183,
+   "biomass": -413970.62894,
+   "wind": -289988.08414,
+   "pv": -1187.7065035,
+   "other": -63629.089094,
+   "bessexport": -306.777954,
+   "bessimport": 1896.303526,
+   "hybridexport": -228.988647,
+   "hybridimport": 0.0,
+   "gspimport": -956030.7549,
+   "biomass_pc": 0.309777836,
+   "wind_pc": 0.217000615,
+   "pv_pc": 0.000888771,
+   "other_pc": 0.047614203,
+   "bess_pc": 0.000229565,
+   "hybrid_pc": 0.000171354,
+   "gsp_pc": 0.4108149717,
+   "neco2intensity": 1.0,
+   "resultant_gco2_kwh": 51.868415971699996
+  }
+ ]
+}
