@@ -10,6 +10,26 @@ center_point:
 centroid:
   - -0.990638
   - 53.701752
+# Only modes present in REPD (renewables, batteries, energy-from-waste) are listed;
+# thermal embedded capacity has no reliable per-region source. Some REPD sites are
+# transmission-connected, so this is a regional, not strictly distribution, capacity set.
+capacity:
+  biomass:
+    - datetime: '2026-07-01'
+      source: DESNZ Renewable Energy Planning Database (Q2 2026)
+      value: 2389
+  wind:
+    - datetime: '2026-07-01'
+      source: DESNZ Renewable Energy Planning Database (Q2 2026)
+      value: 700
+  battery storage:
+    - datetime: '2026-07-01'
+      source: DESNZ Renewable Energy Planning Database (Q2 2026)
+      value: 459
+  solar:
+    - datetime: '2026-07-01'
+      source: DESNZ Renewable Energy Planning Database (Q2 2026)
+      value: 203
 contributors:
   - Jaylouisw
 country: GB
@@ -22,6 +42,8 @@ region: Europe
 sources:
   Northern Powergrid Open Data Portal:
     link: https://northernpowergrid.opendatasoft.com/explore/dataset/live-primary-operational-metering-14-day/
+  DESNZ Renewable Energy Planning Database (Q2 2026):
+    link: https://www.gov.uk/government/publications/renewable-energy-planning-database-quarterly-extract
   NESO Carbon Intensity API:
     link: https://api.carbonintensity.org.uk/regional
   NESO GIS Boundaries for GB DNO Licence Areas:
