@@ -36,34 +36,21 @@ from electricitymap.contrib.lib.models.events import (
     StorageMix,
 )
 from electricitymap.contrib.parsers.lib.exceptions import ParserException
+from electricitymap.contrib.parsers.lib.gb_transmission_mix import (
+    fetch_transmission_mix,
+    shares,
+)
 from electricitymap.contrib.parsers.lib.utils import get_token
 
 PARSER = "GB_NPG.py"
 NPG_PORTAL = "https://northernpowergrid.opendatasoft.com"
 NPG_DATASET = f"{NPG_PORTAL}/api/explore/v2.1/catalog/datasets/odp_generation_mix_region_30day/records"
 NPG_SOURCE = "northernpowergrid.opendatasoft.com"
-ELEXON_STREAM = "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST/stream"
-ELEXON_SOURCE = "elexon.co.uk"
 
 NPG_REGION_BY_ZONE: dict[ZoneKey, str] = {
     ZoneKey("GB-NPG-NE"): "North East",
     ZoneKey("GB-NPG-Y"): "Yorkshire",
 }
-
-# Elexon fuel types -> Electricity Maps production modes. Interconnectors are excluded: the
-# transmission-supplied share is attributed to GB's domestic mix, not to imported electricity.
-ELEXON_TO_MODE = {
-    "BIOMASS": "biomass",
-    "CCGT": "gas",
-    "OCGT": "gas",
-    "COAL": "coal",
-    "NUCLEAR": "nuclear",
-    "WIND": "wind",
-    "NPSHYD": "hydro",
-    "OIL": "oil",
-    "OTHER": "unknown",
-}
-INTERCONNECTOR_PREFIX = "INT"
 
 # NPG dataset column -> Electricity Maps mode
 EMBEDDED_COLUMN_TO_MODE = {
@@ -102,30 +89,6 @@ def _fetch_region_mix(zone_key: ZoneKey, session: Session) -> dict:
     return results[0]
 
 
-def _fetch_gb_transmission_mix(session: Session) -> dict[str, float]:
-    """GB domestic generation in MW by EM mode, for the newest half hour Elexon publishes."""
-    response: Response = session.get(ELEXON_STREAM, params={"format": "json"})
-    if not response.ok:
-        raise ParserException(
-            parser=PARSER,
-            message=f"Elexon request failed: {response.status_code}",
-            zone_key=ZoneKey("GB-NPG-NE"),
-        )
-    rows = response.json()
-    newest = max(row["startTime"] for row in rows)
-    mix: dict[str, float] = {}
-    for row in rows:
-        if row["startTime"] != newest or row["fuelType"].startswith(INTERCONNECTOR_PREFIX):
-            continue
-        mode = ELEXON_TO_MODE.get(row["fuelType"], "unknown")
-        mix[mode] = mix.get(mode, 0.0) + float(row["generation"])
-    if not mix:
-        raise ParserException(
-            parser=PARSER, message="Elexon returned no generation rows", zone_key=ZoneKey("GB-NPG-NE")
-        )
-    return mix
-
-
 def fetch_production(
     zone_key: ZoneKey = ZoneKey("GB-NPG-NE"),
     session: Session = Session(),
@@ -161,10 +124,8 @@ def fetch_production(
             f"{PARSER}: metered GSP import {gsp_import_mw:.0f} MW vs demand-embedded "
             f"{implied_supply_mw:.0f} MW for {zone_key} at {row['timestamp']}"
         )
-    gb_mix = _fetch_gb_transmission_mix(session)
-    gb_total = sum(gb_mix.values())
-    for mode, gb_mw in gb_mix.items():
-        mix.add_value(mode, gsp_import_mw * gb_mw / gb_total)
+    for mode, share in shares(fetch_transmission_mix(session, logger)).items():
+        mix.add_value(mode, gsp_import_mw * share)
 
     storage = StorageMix()
     battery_net = (float(row.get("bessimport", 0)) - abs(float(row.get("bessexport", 0)))) / 1000
