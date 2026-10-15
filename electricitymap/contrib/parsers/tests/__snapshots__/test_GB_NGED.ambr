@@ -1,0 +1,61 @@
+# serializer version: 1
+# name: test_consumption_west_midlands
+  list([
+    dict({
+      'consumption': 2131.97,
+      'datetime': datetime.datetime(2026, 10, 15, 4, 35, tzinfo=datetime.timezone.utc),
+      'end_datetime': None,
+      'source': 'connecteddata.nationalgrid.co.uk',
+      'sourceType': <EventSourceType.measured: 'measured'>,
+      'zoneKey': 'GB-NGED-WM',
+    }),
+  ])
+# ---
+# name: test_production_east_midlands
+  list([
+    dict({
+      'correctedModes': list([
+      ]),
+      'datetime': datetime.datetime(2026, 10, 15, 4, 35, tzinfo=datetime.timezone.utc),
+      'end_datetime': None,
+      'production': dict({
+        'biomass': 200.398761,
+        'gas': 351.772932,
+        'hydro': 50.400718,
+        'nuclear': 373.274945,
+        'solar': 31.5,
+        'unknown': 173.665683,
+        'wind': 1473.656962,
+      }),
+      'source': 'connecteddata.nationalgrid.co.uk, elexon.co.uk',
+      'sourceType': <EventSourceType.estimated: 'estimated'>,
+      'storage': dict({
+      }),
+      'zoneKey': 'GB-NGED-EM',
+    }),
+  ])
+# ---
+# name: test_production_west_midlands
+  list([
+    dict({
+      'correctedModes': list([
+      ]),
+      'datetime': datetime.datetime(2026, 10, 15, 4, 35, tzinfo=datetime.timezone.utc),
+      'end_datetime': None,
+      'production': dict({
+        'biomass': 183.199653,
+        'gas': 321.582223,
+        'hydro': 46.075106,
+        'nuclear': 341.238838,
+        'solar': 17.47,
+        'unknown': 109.50293,
+        'wind': 1112.94125,
+      }),
+      'source': 'connecteddata.nationalgrid.co.uk, elexon.co.uk',
+      'sourceType': <EventSourceType.estimated: 'estimated'>,
+      'storage': dict({
+      }),
+      'zoneKey': 'GB-NGED-WM',
+    }),
+  ])
+# ---

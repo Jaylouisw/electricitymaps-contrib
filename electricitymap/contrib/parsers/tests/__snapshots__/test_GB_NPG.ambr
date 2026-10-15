@@ -1,0 +1,38 @@
+# serializer version: 1
+# name: test_consumption
+  list([
+    dict({
+      'consumption': 1276.62472,
+      'datetime': datetime.datetime(2026, 10, 15, 3, 30, tzinfo=datetime.timezone.utc),
+      'end_datetime': None,
+      'source': 'northernpowergrid.opendatasoft.com',
+      'sourceType': <EventSourceType.measured: 'measured'>,
+      'zoneKey': 'GB-NPG-NE',
+    }),
+  ])
+# ---
+# name: test_production
+  list([
+    dict({
+      'correctedModes': list([
+      ]),
+      'datetime': datetime.datetime(2026, 10, 15, 3, 30, tzinfo=datetime.timezone.utc),
+      'end_datetime': None,
+      'production': dict({
+        'biomass': 107.420659,
+        'gas': 137.981371,
+        'hydro': 19.769458,
+        'nuclear': 146.415441,
+        'solar': 1.162866,
+        'unknown': 71.185439,
+        'wind': 757.262182,
+      }),
+      'source': 'northernpowergrid.opendatasoft.com',
+      'sourceType': <EventSourceType.estimated: 'estimated'>,
+      'storage': dict({
+        'battery': 80.517254,
+      }),
+      'zoneKey': 'GB-NPG-NE',
+    }),
+  ])
+# ---
