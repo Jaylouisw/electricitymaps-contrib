@@ -1,0 +1,2 @@
+parsers:
+  exchange: GB_NGED.fetch_exchange

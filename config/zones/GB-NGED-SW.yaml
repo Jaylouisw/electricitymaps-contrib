@@ -39,20 +39,21 @@ contributors:
 country: GB
 country_name: Great Britain
 currency: GBP
-disclaimer: Consumption and embedded generation are measured by the distribution network operator; the transmission-supplied share of the mix is estimated.
+disclaimer: Consumption, embedded generation and the transmission exchange are measured by the distribution network operator; the composition of imported energy is not modelled here.
 has_day_ahead_price_license: False
 hide_day_ahead_price: False
+parsers:
+  consumption: GB_NGED.fetch_consumption
+  production: GB_NGED.fetch_production
 region: Europe
 sources:
   NGED Data Portal:
     link: https://connecteddata.nationalgrid.co.uk/dataset/live-data
   DESNZ Renewable Energy Planning Database (Q2 2026):
     link: https://www.gov.uk/government/publications/renewable-energy-planning-database-quarterly-extract
-  NESO Carbon Intensity API:
-    link: https://api.carbonintensity.org.uk/regional
-  NESO GIS Boundaries for GB DNO Licence Areas:
-    link: https://www.neso.energy/data-portal/gis-boundaries-gb-dno-license-areas
-  Elexon BMRS (FUELINST):
-    link: https://bmrs.elexon.co.uk/api-documentation/endpoint/datasets/FUELINST
+  connecteddata.nationalgrid.co.uk:
+    link: https://connecteddata.nationalgrid.co.uk/dataset/live-data
+  northernpowergrid.opendatasoft.com:
+    link: https://northernpowergrid.opendatasoft.com/explore/dataset/odp_generation_mix_region_30day/
 timezone: Europe/London
 zone_name: South West England
