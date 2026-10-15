@@ -13,9 +13,10 @@ STOR, Other (all MW). Two things the data itself does not tell you:
 * Demand and Import are occasionally blank (seen in East Midlands). Rows with no demand are
   skipped rather than reported as zero.
 
-Method: consumption is measured (Demand), solar and wind are measured, and the Import share is
-attributed to the GB transmission mix from Elexon — the open methodology question in
-electricitymaps-contrib#8891, which is why those events are marked estimated.
+Everything reported here is measured: consumption is Demand, production is the embedded generation
+the operator meters by fuel, and the transmission import is carried as the exchange with GB. The
+composition of the imported energy is deliberately not modelled - flow tracing derives it from the
+exchange, which keeps the method uniform with the rest of Electricity Maps (see #8891).
 
 STOR is Short Term Operating Reserve: usually gas or diesel peaking plant, but the feed does not say,
 so it is mapped to `unknown` rather than guessed at.
@@ -31,6 +32,7 @@ from requests import Response, Session
 
 from electricitymap.contrib.config import ZoneKey
 from electricitymap.contrib.lib.models.event_lists import (
+    ExchangeList,
     ProductionBreakdownList,
     TotalConsumptionList,
 )
@@ -39,11 +41,6 @@ from electricitymap.contrib.lib.models.events import (
     ProductionMix,
 )
 from electricitymap.contrib.parsers.lib.exceptions import ParserException
-from electricitymap.contrib.parsers.lib.gb_transmission_mix import (
-    ELEXON_SOURCE,
-    fetch_transmission_mix,
-    shares,
-)
 from electricitymap.contrib.parsers.lib.utils import get_token
 
 PARSER = "GB_NGED.py"
@@ -138,23 +135,54 @@ def fetch_production(
     for column, mode in COLUMN_TO_MODE.items():
         mix.add_value(mode, _value(row, column) or 0.0)
 
-    import_mw = _value(row, "Import")
-    source = SOURCE
-    if import_mw is not None and import_mw > 0:
-        transmission = fetch_transmission_mix(session, logger)
-        for mode, share in shares(transmission).items():
-            mix.add_value(mode, import_mw * share)
-        source = f"{SOURCE}, {ELEXON_SOURCE}"
-
     production_list = ProductionBreakdownList(logger)
     production_list.append(
         datetime=_timestamp(row),
         zoneKey=zone_key,
         production=mix,
-        source=source,
-        sourceType=EventSourceType.estimated,
+        source=SOURCE,
+        sourceType=EventSourceType.measured,
     )
     return production_list.to_list()
+
+
+def fetch_exchange(
+    zone_key1: ZoneKey = ZoneKey("GB"),
+    zone_key2: ZoneKey = ZoneKey("GB-NGED-EM"),
+    session: Session = Session(),
+    target_datetime: datetime | None = None,
+    logger: Logger = getLogger(__name__),
+) -> list[dict]:
+    """Measured flow across the area's grid supply point transformers.
+
+    The `Import` column is the transmission-supplied power the operator meters at its GSPs, so this
+    is a measured exchange rather than something derived from demand minus generation.
+    """
+    if target_datetime:
+        raise NotImplementedError("This parser is not yet able to parse past dates.")
+    zones = {zone_key1, zone_key2}
+    zone_key = next((z for z in sorted(zones) if z != ZoneKey("GB")), None)
+    if len(zones) != 2 or ZoneKey("GB") not in zones or zone_key not in ZONE_TO_RESOURCE:
+        raise NotImplementedError(f"{PARSER} does not cover {zone_key1}->{zone_key2}")
+
+    row = _latest_row(zone_key, session)
+    import_mw = _value(row, "Import")
+    if import_mw is None:
+        logger.warning(f"{PARSER}: no import value for {zone_key} at {row.get('Timestamp')}")
+        return []
+
+    # Import is positive while the area draws from the transmission system, i.e. while GB exports.
+    net_flow = import_mw if zone_key1 == ZoneKey("GB") else -import_mw
+
+    exchange_list = ExchangeList(logger)
+    exchange_list.append(
+        datetime=_timestamp(row),
+        zoneKey=ZoneKey("->".join(sorted([zone_key1, zone_key2]))),
+        netFlow=net_flow,
+        source=SOURCE,
+        sourceType=EventSourceType.measured,
+    )
+    return exchange_list.to_list()
 
 
 def fetch_consumption(
@@ -189,3 +217,4 @@ if __name__ == "__main__":
     for zone in ZONE_TO_RESOURCE:
         print(f"{zone} consumption ->", fetch_consumption(ZoneKey(zone)))
         print(f"{zone} production  ->", fetch_production(ZoneKey(zone)))
+        print(f"{zone} exchange    ->", fetch_exchange(ZoneKey("GB"), ZoneKey(zone)))
