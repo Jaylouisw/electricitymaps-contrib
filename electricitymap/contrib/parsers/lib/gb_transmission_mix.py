@@ -25,6 +25,9 @@ ELEXON_TO_MODE = {
     "OTHER": "unknown",
 }
 INTERCONNECTOR_PREFIX = "INT"
+# Pumped storage is a consumer while pumping, which Elexon reports as a negative generation.
+# It is storage, not a generation mode, so it must not enter the mix or the share denominator.
+STORAGE_FUEL_TYPES = {"PS"}
 
 
 def fetch_transmission_mix(session: Session, logger: Logger | None = None) -> dict[str, float]:
@@ -36,10 +39,18 @@ def fetch_transmission_mix(session: Session, logger: Logger | None = None) -> di
     newest = max(row["startTime"] for row in rows)
     mix: dict[str, float] = {}
     for row in rows:
-        if row["startTime"] != newest or row["fuelType"].startswith(INTERCONNECTOR_PREFIX):
+        fuel_type = row["fuelType"]
+        if row["startTime"] != newest:
             continue
-        mode = ELEXON_TO_MODE.get(row["fuelType"], "unknown")
-        mix[mode] = mix.get(mode, 0.0) + float(row["generation"])
+        if fuel_type.startswith(INTERCONNECTOR_PREFIX) or fuel_type in STORAGE_FUEL_TYPES:
+            continue
+        generation = float(row["generation"])
+        if generation <= 0:
+            # A negative reading is a flow measure (pumping, or a meter convention), not
+            # generation; including it would shrink the denominator and inflate every share.
+            continue
+        mode = ELEXON_TO_MODE.get(fuel_type, "unknown")
+        mix[mode] = mix.get(mode, 0.0) + generation
     if not mix:
         raise RuntimeError("Elexon returned no generation rows")
     return mix
